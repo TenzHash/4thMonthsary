@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Things to Read When You Miss Me</title>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="container">
+        <div class="book-cover">
+            <h1 class="book-title">Things to Read When You Miss Me</h1>
+            <div class="dedication">
+                <strong>To my love, my Tiya:</strong><br>
+                Every page in this book carries a piece of my heart for you. Thank you for filling my life with love, laughter, and warmth. Whenever you miss me, flip through these little notes and feel my love reaching out to you. Forever yours.
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('toc')">Table of Contents</button>
+            <button class="nav-btn" onclick="showSection('special')">Read Pages</button>
+        </div>
+
+        <!-- TABLE OF CONTENTS -->
+        <div id="toc" class="page-container active">
+            <div class="toc">
+                <h2>Table of Contents</h2>
+                <!-- JS will populate all 42 page items here -->
+                <div id="tocList"></div>
+            </div>
+        </div>
+
+        <!-- SPECIAL MESSAGES / NOTES COMBINED -->
+        <div id="special" class="page-container">
+            <!-- JS will populate all pages here -->
+            <div id="pagesContainer"></div>
+            <div class="page-controls">
+                <button onclick="previousPage()" id="prevPage">Previous</button>
+                <span class="page-indicator" id="pageIndicator">1 of 42</span>
+                <button onclick="nextPage()" id="nextPage">Next</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+const pages = [
+    {title:"A Hug in Words",content:["Whenever you miss me, close your eyes. I might be far, but my love wraps around you like a warm hug.","If you're reading this, I want you to know—I'm thinking of you too. Always.","Take a deep breath. Imagine me smiling at you. That's how I am whenever I think of you."]},
+    {title:"Love Across Distance",content:["I miss you too... but isn't it beautiful that we have someone to miss so deeply?"]},
+    {title:"Heartbeat Whispers",content:["Hold your hand over your heart. Every beat?","That's me whispering, I love you.","Even if I am not there, I left a piece of my heart with you. Keep it safe.","One day, missing me will just be a memory, and we'll be together again."]},
+    {title:"Love in the Sky",content:["If the day feels heavy without me, look at the sky. I'm sending you love through the clouds."]},
+    {title:"My Favorite Thought",content:["You are my favorite thought, my sweetest daydream, and my forever person.","I can't wait to see you again... but until then, let these pages be little hugs from me."]},
+    {title:"Morning Thoughts",content:["Every morning I wake up thinking of your smile. It's the first thing that brightens my day, even when you're not here."]},
+    {title:"Rainy Day Wishes",content:["It's raining today, and all I want is to be curled up with you, listening to the drops on the window while you rest your head on my shoulder."]},
+    {title:"Midnight Whispers",content:["It's late, and I'm staring at the stars. I wonder if you're looking at the same ones, feeling my love traveling through the night to reach you."]},
+    {title:"The Way You Laugh",content:["I miss the sound of your laughter echoing through our home. It's the most beautiful music I've ever heard, and I can't wait to hear it again."]},
+    {title:"Future Plans",content:["I'm saving up all my stories and experiences to share with you. Our reunion will be filled with so much catching up and even more love."]},
+    {title:"Your Scent",content:["I sprayed your perfume on my pillow last time. It's not the same as having you here, but it brought me the sweetest dreams of you."]},
+    {title:"Photo Memories",content:["I looked through our photos today. Each one tells a story of our love, and looking at them makes the distance feel a little smaller."]},
+    {title:"Text Message Drafts",content:["I write you messages throughout the day that I never send - little thoughts and feelings that I'm saving up to tell you in person."]},
+    {title:"Your Side of the Bed",content:["Your side of the bed stays made because no one could ever fill that space. It's waiting patiently for your return, just like my heart."]},
+    {title:"Sunset Wishes",content:["Every sunset, I make the same wish - that wherever you are, you feel loved, safe, and happy, and that you know I'm thinking of you."]},
+    {title:"Walking Our Route",content:["I took our usual walk today. Every step reminded me of our conversations, our comfortable silences, and the way our hands fit perfectly together."]},
+    {title:"Weather Reports",content:["The weather app on my phone is set to your city too. I like knowing if you need an umbrella or if the sun is warming your face today."]},
+    {title:"Dreams of You",content:["Last night I dreamed we were together again. When I woke up, I held onto that feeling as long as I could - it was like a gift from my sleeping heart."]},
+    {title:"Calendar Counting",content:["I don't count the days we're apart; I count the days until we're together. It makes the waiting feel more like anticipation than longing."]},
+    {title:"Mirror Conversations",content:["Sometimes I practice what I'll say when I see you again. But I know the moment I see your face, all my planned words will turn into pure joy."]},
+    {title:"Garden Thoughts",content:["I planted flowers today and thought about how they'll bloom when you're back. By then, they'll be as beautiful as the moment of our reunion."]},
+    {title:"Music Without You",content:["Songs sound different when you're not here to share them with. I'm collecting melodies to play for you - our own personal soundtrack."]},
+    {title:"Handwritten Letters",content:["I write you letters by hand sometimes. There's something about pen on paper that feels more real, more permanent than digital words."]},
+    {title:"Favorite Memories",content:["I replay our favorite memories like movies in my mind. Each one is a reminder that what we have is real, strong, and worth every moment of missing."]},
+    {title:"Voice Message Treasure",content:["I saved all your voice messages. When I miss you most, I play them and close my eyes, pretending you're right here talking to me."]},
+    {title:"Shared Playlists",content:["I added new songs to our shared playlist today. Music is how we stay connected across the distance - notes carrying love through space."]},
+    {title:"Window Shopping",content:["I saw something today that made me think of you. I didn't buy it, but I saved the memory to share when we're together again."]},
+    {title:"Parallel Lives",content:["I wonder what you're doing right now. Are you thinking of me too? I love how our lives continue in parallel, connected by invisible threads of love."]},
+    {title:"Memory Keeper",content:["I'm the keeper of our memories while you're away. I hold them safe and warm, ready to share and relive them when you're here."]},
+    {title:"Love Letters to Tomorrow",content:["Every day apart is a love letter to our future selves - proof of how much we mean to each other and how strong our love really is."]},
+    {title:"Invisible Thread",content:["There's an invisible thread connecting us, and no distance can break it. I feel the gentle tug of your love every day, keeping us bound together."]},
+    {title:"Patient Heart",content:["My heart has learned patience through loving you from afar. It beats steadily, counting not time but love, growing stronger with each day."]},
+    {title:"Shared Sky",content:["We share the same sky, breathe the same air, and love under the same stars. Distance is just space - it can't touch what's eternal between us."]},
+    {title:"Love Multiplication",content:["Missing you doesn't subtract from our love - it multiplies it. Every moment apart makes me more grateful for every moment we'll have together."]},
+    {title:"Home Definition",content:["I used to think home was a place, but now I know it's a person. You are my home, and I carry you with me wherever I go."]},
+    {title:"Promise Keeper",content:["I promise to love you through every distance, every silence, every challenge. This separation is temporary, but my love for you is forever."]},
+    {title:"Until We Meet Again",content:["This isn't goodbye - it's 'until we meet again.' And when that moment comes, it will be worth every second of missing you."]}
+];
+
+let currentPage=1;
+
+// Populate TOC and Pages
+const tocList=document.getElementById('tocList');
+const pagesContainer=document.getElementById('pagesContainer');
+pages.forEach((p,i)=>{
+    const pageNum=i+1;
+    // TOC
+    const tocItem=document.createElement('div');
+    tocItem.className='toc-item';
+    tocItem.textContent=`Page ${pageNum} - ${p.title}`;
+    tocItem.onclick=()=>showSpecificPage(pageNum);
+    tocList.appendChild(tocItem);
+
+    // Page Content
+    const pageDiv=document.createElement('div');
+    pageDiv.className='page-content';
+    pageDiv.id=`page${pageNum}`;
+    pageDiv.style.display=i===0?'block':'none';
+    pageDiv.innerHTML=`<div class="page-number">Page ${pageNum}</div><h3>${p.title}</h3>${p.content.map(c=>`<p>${c}</p>`).join('')}`;
+    pagesContainer.appendChild(pageDiv);
+});
+
+// Navigation functions
+function showSection(section){
+    document.querySelectorAll('.page-container').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById(section).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function showSpecificPage(num){
+    showSection('special');
+    currentPage=num;
+    updatePageDisplay();
+}
+
+function updatePageDisplay(){
+    document.querySelectorAll('#special .page-content').forEach((p,i)=>{
+        p.style.display=(i+1)===currentPage?'block':'none';
+    });
+    document.getElementById('pageIndicator').textContent=`${currentPage} of ${pages.length}`;
+    document.getElementById('prevPage').disabled=currentPage===1;
+    document.getElementById('nextPage').disabled=currentPage===pages.length;
+}
+
+function nextPage(){ if(currentPage<pages.length){ currentPage++; updatePageDisplay(); } }
+function previousPage(){ if(currentPage>1){ currentPage--; updatePageDisplay(); } }
+
+// Floating hearts
+function createFloatingHeart() {
+    const heart=document.createElement('div');
+    heart.className='floating-heart'; heart.innerHTML='💖';
+    heart.style.left=Math.random()*100+'%';
+    heart.style.animationDuration=(Math.random()*10+10)+'s';
+    heart.style.fontSize=(Math.random()*10+15)+'px';
+    document.getElementById('floatingHearts').appendChild(heart);
+    setTimeout(()=>heart.remove(),15000);
+}
+setInterval(createFloatingHeart,3000);
+for(let i=0;i<5;i++) setTimeout(createFloatingHeart,i*500);
+</script>
+</body>
+</html>
